@@ -1,53 +1,47 @@
+$(document).ready(function() {
+  var events = [];
+  
+  
+  $(".saveBtn").on("click", function() {
+    
+    var value = $(this).siblings(".input").val();
+    var time = $(this).parent().attr("id");
+    var dateAdded = moment().format("dddd, MMMM Do");
 
-// we need a variable to set our current date==================================================
-var currentDateEl =$("currentDate");
+    events.push({input: value, time: time, date: dateAdded});
 
-var scheduleDate = now.format("dddd,")
+    
+    localStorage.setItem("events", JSON.stringify(events));
+    preventDefault("events")
+    
+  });
+// function
+  function currentDay() {
+    
+    var currentHour = moment().format();
 
-// we need to get the items from our local storage and set them to varaibles===================
-var timeValue9 = localStorage.getItem("hour-9");
-var timeValue10 = localStorage.getItem("hour-10");
-var timeValue11 = localStorage.getItem("hour-11");
-var timeValue12 = localStorage.getItem("hour-12");
-var timeValue1 = localStorage.getItem("hour-1");
-var timeValue2 = localStorage.getItem("hour-2");
-var timeValue3 = localStorage.getItem("hour-3");
-var timeValue4 = localStorage.getItem("hour-4");
-var timeValue5 = localStorage.getItem("hour-5");
+   
+    $(".time-block").each(function() {
+      var blockHour = parseInt($(this).attr("id").split("-")[1]);
+    });
+  }
 
-//assign each variable to and id from our div===================
-
-var time9 = $("#9");
-var time10 = $("#10");
-var time11 = $("#11");
-var time12 = $("#12");
-var time1 = $("#13");
-var time2 = $("#14");
-var time3 = $("#15");
-var time4 = $("#16");
-var time5 = $("#17");
-
-
-// values====================
-
-time9.val(timeValue9);
-time10.val(timeValue10);
-time11.val(timeValue11);
-time12.val(timeValue12);
-time1.val(timeValue1);
-time2.val(timeValue2);
-time3.val(timeValue3);
-time4.val(timeValue4);
-time5.val(timeValue5);
+  currentDay();
 
 
+ 
+  var currentDay = moment().format("dddd, MMMM Do");
+  for(var i = 0; i < events.length; i++) {
+    if(currentDay.isAfter(events[i].date)) {
+      events[i].input = "";
+      events[i].time = "";
+      events[i].date = "";
+      events.length = 0;
+    }
+  }
 
-
-
-
-
-
-// FUNCTION=================
-function saveData({
-
-})
+  
+  
+// this command will display the current day on the screen for the user 
+  $("#currentDay").text(moment().format("dddd, MMMM Do"));
+});
